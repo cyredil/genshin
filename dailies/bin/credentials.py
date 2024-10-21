@@ -1,13 +1,10 @@
-import genshin
 import tkinter as tk
-import configparser
 
-from dailies.bin.bin import load_credentials, save_credentials, set_middle
-
+from .utils import load_credentials, save_credentials, set_middle
 
 def credentials_gui():
 
-    cred = list(load_credentials('dailies/credentials.ini'))
+    cred = list(load_credentials('bin/credentials.ini'))
 
     ## Creating widget
     master = tk.Tk()
@@ -45,20 +42,41 @@ def credentials_gui():
     brow2 = tk.Radiobutton(master, text='FireFox',
                            variable=browser, value=1)
     brow2.grid(row=5, column=1)
-        
+
+    game = tk.IntVar(value=cred[5])
+    game1 = tk.Radiobutton(master, text='Genshin Impact',
+                           variable=game, value=0)
+    game1.grid(row=6, column=0)
+    game2 = tk.Radiobutton(master, text='Honkai: Star Rail',
+                           variable=game, value=1)
+    game2.grid(row=6, column=1)
+    game2 = tk.Radiobutton(master, text='Honkai Impact 3rd',
+                           variable=game, value=2)
+    game2.grid(row=6, column=2)
+
+    region = tk.IntVar(value=cred[6])
+    regi1 = tk.Radiobutton(master, text='Not China',
+                           variable=region, value=0)
+    regi1.grid(row=7, column=0)
+    regi2 = tk.Radiobutton(master, text='China',
+                           variable=region, value=1)
+    regi2.grid(row=7, column=1)
+
     def on_send():
         cred = [mail.get(),
                 password.get(),
                 mail_save_var.get(),
                 password_save_var.get(),
-                browser.get()]
-        save_credentials('dailies/credentials.ini', cred)
+                browser.get(),
+                game.get(),
+                region.get()]
+        save_credentials('bin/credentials.ini', cred)
         master.destroy()
 
 
     save_and_exit_button = tk.Button(master, text='Send', width=25, 
                                     command=on_send)
-    save_and_exit_button.grid(row=6, columnspan=2)
+    save_and_exit_button.grid(row=8, columnspan=2)
 
     set_middle(master)
 
