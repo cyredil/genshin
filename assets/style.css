@@ -94,25 +94,56 @@ button:active  {
 	width: 70vw;
 }
 
+#tigh_sensei {
+	margin-left: auto;
+	position: sticky;
+	bottom: 6vh;
+	display: flex;
+	flex-direction: row-reverse;
+	align-items: center;
+	justify-content: flex-end;
+	width: 28vw;
+	height: 40vh;
+}
+
 #tigh_sensei_img {
-	height: 20em;
+	height: 250px;
 }
 
 #update {
-	color: black;
-	position: absolute;
-	font-size: 1.5em;
-	transform: translate(4em, -9em);
-	width: 9em;
-	text-align: center;
-	font-family: 'Lucida Sans';
+	padding-bottom: 15px;
+	height: 100%;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-end;
+	background-color: rgb(40, 40, 40);
+	color: rgb(200, 230, 200);
+	border-top-left-radius: 10%;
+	border-top-right-radius: 10%;
+	border-style: solid;
+	border-width: 0px 3px 0px 3px;
+	border-color: rgb(140, 200, 40);
+	font-size: 1.05em;
+	text-align: justify;
+	font-family: Arial;
+	overflow-y: scroll;
 }
 
+.Bot_message {
+	margin: 6px;
+	padding: 8px;
+	width: 80%;
+	background-color: rgba(00, 00, 00, 0.3);
+	border-radius: 15px;
+	align-self: self-end;
+}
 
 #footer{
+	position: sticky;
 	bottom: 0;
 	width: 100%;
-	height: 8vh;
+	height: 6vh;
 	font-size: 1.5em;
 	background: rgb(40, 40, 40);
 	text-align: center;

@@ -1,10 +1,11 @@
+import io
+import sys
 import pandas as pd
 import plotly
-from dash import Dash, html, dash_table, dcc, callback, Output, Input, State
-import dash
+from dash import Dash, html, dcc, callback, Output, Input
 from bin.login import login
 from bin.credentials import credentials_gui
-from bin.utils import claim_reward
+from bin.utils import claim_reward, formating_bot_message
 from bin.promo_codes import scrap_promo_codes, test_promo_codes
 import asyncio
 
@@ -13,6 +14,10 @@ def main_app():
     # Initialize the app
     app = Dash(__name__,
                assets_folder=('assets'))
+
+    output_buffer = io.StringIO()
+    sys.stdout = output_buffer
+
 
     # App layout
     app.layout = html.Div([
@@ -44,15 +49,12 @@ def main_app():
        html.Div(children=[
             html.Img(src='assets/tigh_sensei.png', alt='Tighnari Sensei',
                      id='tigh_sensei_img'),
-            html.P(children="", id='update')
+            dcc.Interval(id='interval-messages', interval=300, n_intervals=0),
+            html.Div(id='update', className='chat-container')
        ], id='tigh_sensei'),
 
-       html.Div(children=[
-           html.Div(style={'display': 'none'}, id='None1'),
-           html.Div(style={'display': 'none'}, id='None2'),
-           html.Div(style={'display': 'none'}, id='None3'),
-           html.Div(style={'display': 'none'}, id='None4')
-       ], style={'display': 'none'}),
+       html.Div(style={'display': 'none'},
+                id='hidden_output'),
 
         html.Div(children=[html.P([
         "Powered by ", 
@@ -62,83 +64,66 @@ def main_app():
     ], id="bodytype")
     
     @callback (
-        Output(component_id='update',
-               component_property='children',
-               allow_duplicate=True),
-        Input(component_id='credentials_btn',
-              component_property='n_clicks'),
-        Input('None1', 'children'),
+        Output('update', 'children'),
+        Input('interval-messages', 'n_intervals')
+    )
+    def print_formated_messages(n):
+        messages = output_buffer.getvalue().strip().split('\n')
+        formatted_messages = []
+        
+        for i in messages:
+            formatted_messages.append(formating_bot_message(i))
+        return formatted_messages
+
+    @callback (
+        Output('hidden_output', 'children', allow_duplicate=True),
+        Input('credentials_btn', 'n_clicks'),
         prevent_initial_call=True
     )
-    def run_credentials(n_clicks, none):
+    def run_credentials(n_clicks):
+        print("BOT: Asking for new credentials...")
         credentials_gui()
-        return "Tes informations ont été changées!"
+        print("BOT: Credentials succesfully changed!")
     
     @callback (
-        Output(component_id='update',
-               component_property='children',
-               allow_duplicate=True),
-        Input(component_id='credentials_btn',
-              component_property='n_clicks'),
+        Output('hidden_output', 'children', allow_duplicate=True),
+        Input('login_btn', 'n_clicks'),
         prevent_initial_call=True
     )
-    def run_credentials_waiting(n_clicks):
-        return "Chargement des nouvelles informations..."
-    
-    @callback (
-        Output(component_id='update',
-               component_property='children',
-               allow_duplicate=True),
-        Input(component_id='login_btn',
-              component_property='n_clicks'),
-        Input('None2', 'children'),
-        prevent_initial_call=True
-    )
-    def run_login(n_clicks, none):
+    def run_login(n_clicks):
+        print("BOT: Connectiong...")
         try :
             global cred, client, cards
             cred, client, cards = login()
-            return f'Connection reussie! Bienvenu {cards[0].nickname}, \
-                voyageur.se de Tayvat!'
+            print(f'BOT: Connection established! Welcome {cards[0].nickname},',
+                  'Teyvat traveler!')
         except:
-            return f'Connection echouée...'
-    
-    @callback (
-        Output(component_id='update',
-               component_property='children',
-               allow_duplicate=True),
-        Input(component_id='login_btn',
-              component_property='n_clicks'),
-        prevent_initial_call=True
-    )
-    def run_login_waiting(n_clicks):
-        return "Connection en cours..."
+            print('BOT: Cannot log in...')
 
     @callback (
-        Output(component_id='update',
-               component_property='children',
-               allow_duplicate=True),
-        Input(component_id='claim_reward_btn',
-              component_property='n_clicks'),
+        Output('hidden_output', 'children', allow_duplicate=True),
+        Input('claim_reward_btn', 'n_clicks'),
         prevent_initial_call=True
     )
     def run_claim_reward(n_clicks):
+        print('BOT: Claiming rewards...')
         if 'client' in globals():
-            return asyncio.run(claim_reward(client))
+            print(asyncio.run(claim_reward(client)))
         else:
-            return "Tu ne t'es pas connecté.e!"
+            print("BOT: You didn't log in!")
     
     @callback (
-        Output(component_id='update',
-               component_property='children'),
-        Input(component_id='claim_genshin_codes_btn',
-              component_property='n_clicks'),
+        Output('hidden_output', 'children'),
+        Input('claim_genshin_codes_btn', 'n_clicks'),
         prevent_initial_call=True
     )
     def run_claim_genshin_codes(n_clicks):
         if n_clicks==1:
+            print('BOT: Searching all available promo codes')
             scrap_promo_codes()
-        return test_promo_codes(pd.read_csv('bin/promo_codes.csv'), client)
+            print('BOT: Done!')
+        print(test_promo_codes(pd.read_csv('bin/promo_codes.csv'), client))
+
 
     # Run the app
     if __name__ == '__main__':
