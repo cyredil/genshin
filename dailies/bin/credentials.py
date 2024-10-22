@@ -8,6 +8,9 @@ def credentials_gui():
     # Creating widget
     master = tk.Tk()
 
+    master.attributes("-topmost", True)
+    master.focus_force()
+
     master.title('Credentials.exe')
 
     explication = tk.Message(master, text="BONJOUR", width=250)
@@ -75,10 +78,12 @@ def credentials_gui():
     save_and_exit_button = tk.Button(master, text='Send', width=25,
                                      command=on_send)
     save_and_exit_button.grid(row=8, columnspan=2)
+    save_and_exit_button.focus_force()
+
+    master.bind('<Return>', lambda event: save_and_exit_button.invoke())
+
 
     set_middle(master)
-
-    master.attributes("-topmost", True)
 
     master.mainloop()
 

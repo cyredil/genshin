@@ -58,18 +58,10 @@ async def claim_reward(client):
     try:
         reward = await client.claim_daily_reward()
     except genshin.AlreadyClaimed:
-        print("Daily reward already claimed")
+        return "Daily reward already claimed"
     else:
-        print(f"Claimed {reward.amount}x {reward.name}")
+        return f"Claimed {reward.amount}x {reward.name}"
 
-async def get_account_infos(client, game_number):
+async def get_record_cards(client):
     # list of all game accounts of the currently logged-in user
-    game_biz_list = ['hk4e_global',
-                     'hkrpg_global',
-                     'bh3_global']
-
-    accounts = await client.get_game_accounts()
-
-    for account in accounts:
-        if account.game_biz == game_biz_list[game_number]:
-            return account
+    return await client.get_record_cards(client.hoyolab_id)
