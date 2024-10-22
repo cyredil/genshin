@@ -15,7 +15,7 @@ body{
 header{
 	position: sticky;
 	top: 0;
-	color: rgb(40, 200, 80);
+	color: rgb(140, 200, 40);
 	font-family: Arial;
 	display: flex;
 	flex-direction: row;
@@ -45,7 +45,7 @@ header{
 
 	& div {
 		border-radius: 50%;
-		background: rgb(40, 200, 80);
+		background: rgb(140, 200, 40);
 		height: 60%;
 		width: 60%;
         
@@ -70,7 +70,7 @@ button {
 	background-color: rgb(20, 20, 20);
     border-width: 3px 0px 3px 0px;
     border-style: solid;
-    border-color: rgb(40, 200, 80);
+    border-color: rgb(140, 200, 40);
 	border-radius: 1vh;
 	color: rgb(200, 230, 200);
     width: 22%;
@@ -117,8 +117,8 @@ button:active  {
 	background: rgb(40, 40, 40);
 	text-align: center;
 	border-style: solid;
-	border-color: rgb(40, 200, 80);
+	border-color: rgb(140, 200, 40);
 	border-bottom: 0px;
 } & a {
-	color: rgb(40, 200, 80);
+	color: rgb(140, 200, 40);
 }
