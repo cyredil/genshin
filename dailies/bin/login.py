@@ -1,6 +1,8 @@
+
+# Import the credentials module
 import asyncio
 import genshin
-from .utils import load_credentials
+from .utils import load_credentials, get_account_infos
 
 async def authenticate(credentials):
     mail = credentials[0]
@@ -22,8 +24,6 @@ async def authenticate(credentials):
     cookies = await client.login_with_password(mail, password)
     cookies = str(cookies).split(' ')
 
-    print("\n\n".join(cookies))
-
     ltuid = cookies[5].split('=')[1][1:-1]
     ltoken = cookies[3].split('=')[1][1:-1]
     cookies_dic = {'ltuid_v2': ltuid,
@@ -34,5 +34,13 @@ async def authenticate(credentials):
 
     return client
 
+# Run the credentials GUI function
+def login():
+    cred = load_credentials('bin/credentials.ini')
+    client = asyncio.run(authenticate(cred))
+    account_infos = asyncio.run(get_account_infos(client, int(cred[5])))
+
+    return cred, client, account_infos
+    
 if __name__ == "__main__":
-    asyncio.run(authenticate())
+    a, b, c = login()

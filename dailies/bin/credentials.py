@@ -1,18 +1,17 @@
 import tkinter as tk
-
 from .utils import load_credentials, save_credentials, set_middle
 
 def credentials_gui():
 
     cred = list(load_credentials('bin/credentials.ini'))
 
-    ## Creating widget
+    # Creating widget
     master = tk.Tk()
 
     master.title('Credentials.exe')
 
     explication = tk.Message(master, text="BONJOUR", width=250)
-    explication.grid(row=0,columnspan=2)
+    explication.grid(row=0, columnspan=2)
 
     tk.Label(master, text="email :").grid(row=1)
     tk.Label(master, text="password").grid(row=2)
@@ -32,7 +31,7 @@ def credentials_gui():
 
     password_save_var = tk.IntVar(value=cred[3])
     password_save = tk.Checkbutton(master, text='Save password',
-                               variable=password_save_var)
+                                   variable=password_save_var)
     password_save.grid(row=4, sticky='W')
 
     browser = tk.IntVar(value=cred[4])
@@ -73,14 +72,16 @@ def credentials_gui():
         save_credentials('bin/credentials.ini', cred)
         master.destroy()
 
-
-    save_and_exit_button = tk.Button(master, text='Send', width=25, 
-                                    command=on_send)
+    save_and_exit_button = tk.Button(master, text='Send', width=25,
+                                     command=on_send)
     save_and_exit_button.grid(row=8, columnspan=2)
 
     set_middle(master)
 
+    master.attributes("-topmost", True)
+
     master.mainloop()
+
 
 if __name__ == "__main__":
     credentials_gui()
