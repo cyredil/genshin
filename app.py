@@ -1,9 +1,11 @@
+import pandas as pd
 import plotly
 from dash import Dash, html, dash_table, dcc, callback, Output, Input, State
 import dash
 from bin.login import login
 from bin.credentials import credentials_gui
 from bin.utils import claim_reward
+from bin.promo_codes import scrap_promo_codes, test_promo_codes
 import asyncio
 
 def main_app():
@@ -32,6 +34,10 @@ def main_app():
              
             html.Button('Collect Daily Calender Rewards',
                         id='claim_reward_btn',
+                        n_clicks=0),
+             
+            html.Button('Collect Genshin Promo Codes',
+                        id='claim_genshin_codes_btn',
                         n_clicks=0)
         ]),
 
@@ -110,7 +116,8 @@ def main_app():
 
     @callback (
         Output(component_id='update',
-               component_property='children'),
+               component_property='children',
+               allow_duplicate=True),
         Input(component_id='claim_reward_btn',
               component_property='n_clicks'),
         prevent_initial_call=True
@@ -120,6 +127,18 @@ def main_app():
             return asyncio.run(claim_reward(client))
         else:
             return "Tu ne t'es pas connecté.e!"
+    
+    @callback (
+        Output(component_id='update',
+               component_property='children'),
+        Input(component_id='claim_genshin_codes_btn',
+              component_property='n_clicks'),
+        prevent_initial_call=True
+    )
+    def run_claim_genshin_codes(n_clicks):
+        if n_clicks==1:
+            scrap_promo_codes()
+        return test_promo_codes(pd.read_csv('bin/promo_codes.csv'), client)
 
     # Run the app
     if __name__ == '__main__':
