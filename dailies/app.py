@@ -3,10 +3,10 @@ from dash import Dash, html, dash_table, dcc, callback, Output, Input, State
 import dash
 from bin.login import login
 from bin.credentials import credentials_gui
+from bin.utils import claim_reward
+import asyncio
 
 def main_app():
-
-    cred, client, account_infos = login()
 
     # Initialize the app
     app = Dash(__name__,
@@ -22,7 +22,7 @@ def main_app():
 
         html.Article(children=[
              
-            html.Button('Change Credentials and settings',
+            html.Button('Credentials & Settings',
                         id='credentials_btn',
                         n_clicks=0),
              
@@ -30,8 +30,8 @@ def main_app():
                         id='login_btn',
                         n_clicks=0),
              
-            html.Button('Collect Daily rewards',
-                        id='claim_rewards_btn',
+            html.Button('Collect Daily Calender Rewards',
+                        id='claim_reward_btn',
                         n_clicks=0)
         ]),
 
@@ -74,10 +74,9 @@ def main_app():
                allow_duplicate=True),
         Input(component_id='credentials_btn',
               component_property='n_clicks'),
-        Input('None2', 'children'),
         prevent_initial_call=True
     )
-    def run_credentials_waiting(n_clicks, none):
+    def run_credentials_waiting(n_clicks):
         return "Chargement des nouvelles informations..."
     
     @callback (
@@ -86,28 +85,41 @@ def main_app():
                allow_duplicate=True),
         Input(component_id='login_btn',
               component_property='n_clicks'),
-        Input('None3', 'children'),
+        Input('None2', 'children'),
         prevent_initial_call=True
     )
     def run_login(n_clicks, none):
         try :
-            global cred, client, account_infos
-            cred, client, account_infos = login()
-            return f'Connection reussie! Bienvenu {account_infos.nickname}, \
+            global cred, client, cards
+            cred, client, cards = login()
+            return f'Connection reussie! Bienvenu {cards[0].nickname}, \
                 voyageur.se de Tayvat!'
         except:
             return f'Connection echouée...'
     
     @callback (
         Output(component_id='update',
-               component_property='children'),
+               component_property='children',
+               allow_duplicate=True),
         Input(component_id='login_btn',
               component_property='n_clicks'),
-        Input('None4', 'children'),
         prevent_initial_call=True
     )
-    def run_login_waiting(n_clicks, none):
+    def run_login_waiting(n_clicks):
         return "Connection en cours..."
+
+    @callback (
+        Output(component_id='update',
+               component_property='children'),
+        Input(component_id='claim_reward_btn',
+              component_property='n_clicks'),
+        prevent_initial_call=True
+    )
+    def run_claim_reward(n_clicks):
+        if 'client' in globals():
+            return asyncio.run(claim_reward(client))
+        else:
+            return "Tu ne t'es pas connecté.e!"
 
     # Run the app
     if __name__ == '__main__':

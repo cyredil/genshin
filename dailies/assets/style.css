@@ -55,24 +55,39 @@ header{
 article {
     display: flex;
     flex-direction: row;
+
     width: 90vw;
-    padding-top: 5vh;
+	min-height: 50vh;
+    margin-top: 5vh;
+	background: rgb(40, 40, 40);
+	align-items: center;
+	justify-content: space-around;
 }
 
 button {
+	display: flex;
+    flex-direction: row;
+	background-color: rgb(20, 20, 20);
     border-width: 3px 0px 3px 0px;
     border-style: solid;
     border-color: rgb(40, 200, 80);
-    background: rgb(40, 40, 40);
+	border-radius: 1vh;
 	color: rgb(200, 230, 200);
-    width: 30%;
-    height: 20vh;
-    display: flex;
-    flex-direction: column;
+    width: 22%;
+    height: 12vh;
     align-items: center;
-    text-align: center;
     justify-content: center;
-    font-size: 1.2em;
+    font-size: 1.4em;
+	transition-duration: 0.4s;
+}
+
+button:hover  {
+	background-color: rgb(30, 60, 30);
+	cursor: pointer;
+}
+
+button:active  {
+	background-color: rgb(120, 120, 60);
 }
 
 .dash-table-container {

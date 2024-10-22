@@ -22,8 +22,6 @@ async def authenticate(credentials):
     cookies = await client.login_with_password(mail, password)
     cookies = str(cookies).split(' ')
 
-    print("\n\n".join(cookies))
-
     ltuid = cookies[5].split('=')[1][1:-1]
     ltoken = cookies[3].split('=')[1][1:-1]
     cookies_dic = {'ltuid_v2': ltuid,

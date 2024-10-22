@@ -2,7 +2,7 @@
 # Import the credentials module
 import asyncio
 import genshin
-from .utils import load_credentials, get_account_infos
+from .utils import load_credentials, get_record_cards
 
 async def authenticate(credentials):
     mail = credentials[0]
@@ -38,9 +38,10 @@ async def authenticate(credentials):
 def login():
     cred = load_credentials('bin/credentials.ini')
     client = asyncio.run(authenticate(cred))
-    account_infos = asyncio.run(get_account_infos(client, int(cred[5])))
+    cards = asyncio.run(get_record_cards(client))
+    print('??')
 
-    return cred, client, account_infos
+    return cred, client, cards
     
 if __name__ == "__main__":
     a, b, c = login()
