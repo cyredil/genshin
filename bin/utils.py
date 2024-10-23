@@ -1,6 +1,7 @@
 
 import configparser
 import genshin
+from dash import html
 
 def load_credentials(filename):
     config = configparser.ConfigParser()
@@ -58,10 +59,16 @@ async def claim_reward(client):
     try:
         reward = await client.claim_daily_reward()
     except genshin.AlreadyClaimed:
-        return "Daily reward already claimed"
+        return "BOT: Daily reward already claimed"
     else:
-        return f"Claimed {reward.amount}x {reward.name}"
+        return f"BOT: Claimed {reward.amount}x {reward.name}"
 
 async def get_record_cards(client):
     # list of all game accounts of the currently logged-in user
     return await client.get_record_cards(client.hoyolab_id)
+
+def formating_bot_message(message):
+    if message[:3]=='BOT':
+        return html.Div(message[5:], className='Bot_message')
+    elif message[:4]=='USER':
+        return html.Div(message[6:], className='User_message')

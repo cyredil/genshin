@@ -20,17 +20,8 @@ async def authenticate(credentials):
         client.region = genshin.Region.OVERSEAS
     else:
         client.region = genshin.Region.CHINESE
-    
+
     cookies = await client.login_with_password(mail, password)
-    cookies = str(cookies).split(' ')
-
-    ltuid = cookies[5].split('=')[1][1:-1]
-    ltoken = cookies[3].split('=')[1][1:-1]
-    cookies_dic = {'ltuid_v2': ltuid,
-                   'ltoken_v2': ltoken
-                   }
-
-    client.set_cookies(cookies_dic) # cookie header
 
     return client
 
@@ -39,9 +30,9 @@ def login():
     cred = load_credentials('bin/credentials.ini')
     client = asyncio.run(authenticate(cred))
     cards = asyncio.run(get_record_cards(client))
-    print('??')
 
-    return cred, client, cards
+    return (cred, client, cards)
     
 if __name__ == "__main__":
-    a, b, c = login()
+    login()
+    
