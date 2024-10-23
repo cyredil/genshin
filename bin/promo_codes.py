@@ -35,7 +35,7 @@ def scrap_promo_codes():
         codes.append([game, code, award, recent])
 
     data = pd.DataFrame(codes, columns=['game', 'code', 'award', 'recent'])
-    data.to_csv('promo_codes.csv')
+    data.to_csv('bin/promo_codes.csv')
 
 async def test_promo_code(code, award, client):
     print(f'BOT: Testing code *{code}*...')
