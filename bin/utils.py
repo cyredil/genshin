@@ -70,5 +70,5 @@ async def get_record_cards(client):
 def formating_bot_message(message):
     if message[:3]=='BOT':
         return html.Div(message[5:], className='Bot_message')
-    else:
+    elif message[:4]=='USER':
         return html.Div(message[6:], className='User_message')

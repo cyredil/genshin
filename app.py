@@ -2,7 +2,7 @@ import io
 import sys
 import pandas as pd
 import plotly
-from dash import Dash, html, dcc, callback, Output, Input
+from dash import Dash, html, dcc, callback, Output, Input, State
 from bin.login import login
 from bin.credentials import credentials_gui
 from bin.utils import claim_reward, formating_bot_message
@@ -49,8 +49,12 @@ def main_app():
        html.Div(children=[
             html.Img(src='assets/tigh_sensei.png', alt='Tighnari Sensei',
                      id='tigh_sensei_img'),
-            dcc.Interval(id='interval-messages', interval=300, n_intervals=0),
-            html.Div(id='update', className='chat-container')
+            dcc.Interval(id='interval-messages', interval=1000, n_intervals=0),
+            html.Div(children=[html.Div(children=[html.Button('Send', id='chat-send-button', n_clicks=0),
+                               dcc.Textarea(id='chat-box', value='Talk with tighnari!')],
+                               id='chat'),
+                               html.Div(id='update', className='chat-container')],
+                     id='outerupdatediv'),
        ], id='tigh_sensei'),
 
        html.Div(style={'display': 'none'},
@@ -74,6 +78,17 @@ def main_app():
         for i in messages:
             formatted_messages.append(formating_bot_message(i))
         return formatted_messages
+
+    @callback (
+        Output('chat-box', 'value'),
+        Output('hidden_output', 'children', allow_duplicate=True),
+        Input('chat-send-button', 'n_clicks'),
+        State('chat-box', 'value'),
+        prevent_initial_call=True
+    )
+    def talk_with_tigh(n_clicks, value):
+        print(f'USER: {value}')
+        return 'Talk with tighnari!', None
 
     @callback (
         Output('hidden_output', 'children', allow_duplicate=True),

@@ -35,6 +35,8 @@ header{
 	}
 }
 
+
+
 #form {
 	justify-items: center;
 	align-items: center;
@@ -55,7 +57,7 @@ header{
 article {
     display: flex;
     flex-direction: row;
-
+	border-radius: 10px;
     width: 90vw;
 	min-height: 50vh;
     margin-top: 5vh;
@@ -77,7 +79,7 @@ button {
     height: 12vh;
     align-items: center;
     justify-content: center;
-    font-size: 1.4em;
+    font-size: 1.2em;
 	transition-duration: 0.4s;
 }
 
@@ -97,26 +99,33 @@ button:active  {
 #tigh_sensei {
 	margin-left: auto;
 	position: sticky;
+	right: 120px;
 	bottom: 6vh;
 	display: flex;
 	flex-direction: row-reverse;
 	align-items: center;
 	justify-content: flex-end;
-	width: 28vw;
-	height: 40vh;
 }
 
 #tigh_sensei_img {
-	height: 250px;
+	height: 220px;
+	position:fixed;
+	z-index: 100;
+	bottom: 6vh;
+	right: 0px;
 }
 
-#update {
-	padding-bottom: 15px;
-	height: 100%;
-	width: 100%;
+#outerupdatediv {
+	overflow-y: scroll;
 	display: flex;
-	flex-direction: column;
-	justify-content: flex-end;
+	flex-direction: column-reverse;
+	padding-bottom: 15px;
+	padding-right: 5px;
+	height: 45vh;
+	min-height: 400px;
+	max-height: 600px;
+	width: 20vw;
+	min-width: 300px;
 	background-color: rgb(40, 40, 40);
 	color: rgb(200, 230, 200);
 	border-top-left-radius: 10%;
@@ -124,19 +133,51 @@ button:active  {
 	border-style: solid;
 	border-width: 0px 3px 0px 3px;
 	border-color: rgb(140, 200, 40);
-	font-size: 1.05em;
+} ::-webkit-scrollbar {
+	display: none;
+  }
+
+#chat{
+	display: flex;
+	flex-direction: row;
+	height: 6vh;
+	width: 100%;
+}
+#chat-box{
+	width: 80%;
+	margin-top: 5px;
+}
+#chat-send-button {
+	height: 6vh;
+}
+
+#update {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	font-size: 1em;
 	text-align: justify;
-	font-family: Arial;
-	overflow-y: scroll;
+	font-family: Calibri;
 }
 
 .Bot_message {
-	margin: 6px;
+	display: inline-flex;
+	align-self: flex-end;
+	margin: 5px;
 	padding: 8px;
-	width: 80%;
-	background-color: rgba(00, 00, 00, 0.3);
+	max-width: 80%;
+	background-color: rgba(140, 200, 40, 0.5);
 	border-radius: 15px;
-	align-self: self-end;
+}
+
+.User_message {
+	display: inline-flex;
+	align-self: flex-start;
+	margin: 5px;
+	padding: 8px;
+	max-width: 80%;
+	background-color: rgba(0, 0, 0, 0.5);
+	border-radius: 15px;
 }
 
 #footer{
@@ -144,7 +185,7 @@ button:active  {
 	bottom: 0;
 	width: 100%;
 	height: 6vh;
-	font-size: 1.5em;
+	font-size: 1.1em;
 	background: rgb(40, 40, 40);
 	text-align: center;
 	border-style: solid;
