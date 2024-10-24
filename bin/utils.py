@@ -8,7 +8,6 @@ from dash import html
 
 # --- Defining utils base functions ---
 
-
 def load_credentials(filename):
     """load credential of the user, saved in bin/credentials.ini
 

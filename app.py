@@ -71,7 +71,7 @@ def main_app():
             html.Img(src='assets/tigh_sensei.png', alt='Tighnari Sensei',
                      id='tigh_sensei_img'),
             ### Adding new prints every seconds
-            dcc.Interval(id='interval-messages', interval=1000, n_intervals=0),
+            dcc.Interval(id='interval-messages', interval=500, n_intervals=0),
 
             ### Chat bot box
             html.Div(children=[html.Div(children=[html.Button('Send', id='chat-send-button', n_clicks=0),
@@ -110,7 +110,8 @@ def main_app():
         
         # Formatting message with `formarting_bot_message`
         for i in messages:
-            formatted_messages.append(formating_bot_message(i))
+            if len(i) > 6: ## CHANGE FOR A CORRECT MESSAGE FUNCTION
+                formatted_messages.append(formating_bot_message(i))
         return formatted_messages
 
     # Callback allowing user to send message to tignari
