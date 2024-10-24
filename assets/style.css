@@ -116,6 +116,7 @@ button:active  {
 }
 
 #outerupdatediv {
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 	overflow-y: scroll;
 	display: flex;
 	flex-direction: column-reverse;
