@@ -75,7 +75,9 @@ def main_app():
 
             ### Chat bot box
             html.Div(children=[html.Div(children=[html.Button('Send', id='chat-send-button', n_clicks=0),
-                               dcc.Textarea(id='chat-box', value='Talk with tighnari!')],
+                               dcc.Textarea(id='chat-box',
+                                            value='',
+                                            placeholder='Chat with Tigh Sensei!')],
                                id='chat'),
                                html.Div(id='update', className='chat-container')],
                      id='outerupdatediv'),
@@ -106,9 +108,7 @@ def main_app():
         messages = output_buffer.getvalue().strip().split('\n')
         formatted_messages = []
         
-        # Formatting message :
-        # adding className Bot_messages if 'BOT: '
-        # adding className User_messages if 'User_messages'
+        # Formatting message with `formarting_bot_message`
         for i in messages:
             formatted_messages.append(formating_bot_message(i))
         return formatted_messages
@@ -125,7 +125,7 @@ def main_app():
         # print message as user
         print(f'USER: {value}')
         # reset chat default value
-        return 'Talk with tighnari!', None
+        return '', None
 
     #Callback handling credential and setting changes
     @callback (
