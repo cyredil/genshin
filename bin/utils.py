@@ -3,13 +3,13 @@
 # --- Importing packages ---
 import configparser
 import genshin
+import genshin.client.components.auth.server as geetest_server
 from dash import html
-
 
 # --- Defining utils base functions ---
 
 def load_credentials(filename):
-    """load credential of the user, saved in bin/credentials.ini
+    """load credentials of the user, saved in bin/credentials.ini
 
     Args:
         filename (str): Complete file path string.
@@ -141,3 +141,21 @@ def formating_bot_message(message):
         return html.Div(message[5:], className='Bot_message')
     elif message[:4]=='USER':
         return html.Div(message[6:], className='User_message')
+    
+async def solve_geeTest(client):
+        """Solving GeeTest error by asking user to solve Captcha
+
+        Args:
+            client (genshin.client.client.Client): Genshin client with user
+                logged in
+        """
+        print('GeeTest detected, trying to solve..')
+
+        # create mmt
+        mmt = await client.create_mmt()
+
+        # Ask user to solve Captcha
+        result = await geetest_server.solve_geetest(mmt,api_server="api.geetest.com")
+        
+        # Send Captcha to server
+        await client.verify_mmt(result) 
