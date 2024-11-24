@@ -7,6 +7,8 @@ from bin.utils import solve_geeTest
 
 
 async def get_full_genshin_char_infos(client, cards):
+    """
+    """
     try:
         data = await client.get_genshin_detailed_characters(cards[0].uid)
     except genshin.GeetestError:
@@ -29,7 +31,10 @@ async def get_full_genshin_char_infos(client, cards):
              'extra_properties', 'element_properties']]
     return df
 
+
 def recover_genshin_artifacts(data):
+    """
+    """
     arti_list = []
 
     for _, row in data.iterrows():
@@ -55,12 +60,12 @@ def recover_genshin_artifacts(data):
                               'times': arti.main_stat.times},
                 'sub_stats': {
                     f'sub_stat{i}': {'bonus': arti.sub_stats[i].info.name,
-                                  'type': arti.sub_stats[i].info.type,
-                                  'value': arti.sub_stats[i].value,
-                                  'times': arti.sub_stats[i].times} for i in range(len(arti.sub_stats))}
+                                     'type': arti.sub_stats[i].info.type,
+                                     'value': arti.sub_stats[i].value,
+                                     'times': arti.sub_stats[i].times} for i in range(len(arti.sub_stats))}
             }
             arti_list.append(arti_dic)
-        
+
     print(arti_list)
     return pd.DataFrame(arti_list)
 
