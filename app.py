@@ -187,7 +187,6 @@ def main_app():
         # (optional arg new_only=True, see doc)
         print(test_promo_codes(pd.read_csv('bin/promo_codes.csv'), client))
 
-
     # Run the app
     if __name__ == '__main__':
         app.run(debug=True, port=8050)

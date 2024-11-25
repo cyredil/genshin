@@ -78,7 +78,7 @@ async def test_promo_code(code, award, client):
     # Try to redeem code with corresponding output
     try :
         await client.redeem_code(code)
-        return (f'BOT: Succes! Code *{code}* claimed! You earned {award}!')
+        return (f'BOT: Success! Code *{code}* claimed! You earned {award}!')
     except genshin.RedemptionClaimed:
         return f'BOT: *{code}* already claimed! You thief!'
     except genshin.RedemptionInvalid as e:
@@ -116,7 +116,7 @@ def test_promo_codes(df, client, new_only=True):
     for ind, row in df.iterrows():
         r = asyncio.run(test_promo_code(row['code'], row['award'], client))
 
-        count += int('succes' in r) # counting the number of succes
+        count += int('succes' in r.lower()) # counting the number of succes
         print(r)
     print(f'BOT: No more new codes to try out! You redeemed {count} codes!')
 
