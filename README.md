@@ -21,9 +21,7 @@ conda create --name <env> --file requirements.txt
 conda activate <env>
 python app.py
 ```
-### Executable only
 
-If you simply want to run the webapp, just download the files and run the `app.exe` file in the `dist` folder.
 ## Usage
 
 On your first use you will need to enter your credential by clicking the 'Change Credentials' button.
@@ -46,8 +44,11 @@ There is a Chat Bot to keep you informed of every thing running in the backgroun
 ## Roadmap
 
 Current project Roadmap
-- [x] Adding a Tighnari themed chatbot
-- [ ] Creating an easy-of-use .exe file
+- ChatBot
+	- [x] Showing prompt
+ 	- [ ] Prompt responsive 	
+- [ ] Deploying the app on a custom server
+- [ ] Setting an automatic dailies claimer
 - [ ] Adding a artifact presentation Subsection
 - [ ] Adding advices depending on character builds
 - [ ] Adding new login methods:
