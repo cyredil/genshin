@@ -47,7 +47,7 @@ There is a Chat Bot to keep you informed of every thing running in the backgroun
 
 Current project Roadmap
 - [x] Adding a Tighnari themed chatbot
-- [x] Creating an easy-of-use .exe file
+- [ ] Creating an easy-of-use .exe file
 - [ ] Adding a artifact presentation Subsection
 - [ ] Adding advices depending on character builds
 - [ ] Adding new login methods:
